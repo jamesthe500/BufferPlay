@@ -1,8 +1,20 @@
 ﻿namespace BufferPlay
 {
-    public class CircularBuffer
+    /*
+     * This is a demonstration of GENERICS.
+     * Generics are useful for reusing code when you want 
+     * to be able to switch types without using BOXING, which
+     * has performance problems. It keeps you typesafe too.
+     * 
+     * A placeholder is put in angle-brackets and in place of
+     * the type throughout the method. When the client, i.e. code
+     * using the class, instantiates, it picks the type it will be using.
+     * 
+     * <T> for "type" is the convention.
+     */
+    public class CircularBuffer<T>
     {
-        private double[] _buffer;
+        private T[] _buffer;
         private int _start;
         private int _end;
 
@@ -12,12 +24,12 @@
 
         public CircularBuffer(int capacity)
         {
-            _buffer = new double[capacity+1];
+            _buffer = new T[capacity+1];
             _start = 0;
             _end = 0;
         }
 
-        public void Write(double value)
+        public void Write(T value)
         {
             _buffer[_end] = value;
             _end = (_end + 1) % _buffer.Length;
@@ -27,9 +39,9 @@
             }
         }
 
-        public double Read()
+        public T Read()
         {
-            var result = _buffer[_start];
+            T result = _buffer[_start];
             _start = (_start + 1) % _buffer.Length;
             return result;
         }
