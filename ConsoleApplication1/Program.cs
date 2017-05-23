@@ -16,7 +16,8 @@ namespace BufferPlay
             ProcessBuffer(buffer);
         }
 
-        private static void ProcessBuffer(CircularBuffer<double> buffer)
+        // We are having the program call an implementation so that CircularBuffer can decide what kind of buffer touse?
+        private static void ProcessBuffer(IBuffer<double> buffer)
         {
             var sum = 0.0;
             Console.WriteLine("Buffer: ");
@@ -27,7 +28,7 @@ namespace BufferPlay
             Console.WriteLine(sum);
         }
 
-        private static void ProcessInput(CircularBuffer<double> buffer)
+        private static void ProcessInput(IBuffer<double> buffer)
         {
             while (true)
             {

@@ -1,18 +1,17 @@
 ﻿namespace BufferPlay
 {
     /*
-     * This is a demonstration of GENERICS.
-     * Generics are useful for reusing code when you want 
-     * to be able to switch types without using BOXING, which
-     * has performance problems. It keeps you typesafe too.
-     * 
-     * A placeholder is put in angle-brackets and in place of
-     * the type throughout the method. When the client, i.e. code
-     * using the class, instantiates, it picks the type it will be using.
-     * 
-     * <T> for "type" is the convention.
+   Adding an interface
      */
-    public class CircularBuffer<T>
+     public interface IBuffer<T>
+    {
+        bool IsEmpty { get; }
+        void Write(T value);
+        T Read();
+    }
+
+    // a CircularBuffer of T Implements IBuffer of T
+    public class CircularBuffer<T> : IBuffer<T>
     {
         private T[] _buffer;
         private int _start;
