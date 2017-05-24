@@ -1,4 +1,7 @@
-﻿namespace BufferPlay
+﻿using System;
+using System.Collections.Generic;
+
+namespace BufferPlay
 {
     /*
    Adding an interface
@@ -8,6 +11,32 @@
         bool IsEmpty { get; }
         void Write(T value);
         T Read();
+    }
+
+    public class Buffer<T> : IBuffer<T>
+    {
+        // this is in the System.Collections.GEneric namespace
+        // This is a FIFO data structure type
+        Queue<T> _queue = new Queue<T>();
+
+        public bool IsEmpty
+        {
+            get
+            {
+                // changed to the following from default
+                return _queue.Count == 0;
+            }
+        }
+
+        public T Read()
+        {
+            return _queue.Dequeue();
+        }
+
+        public void Write(T value)
+        {
+            _queue.Enqueue(value);
+        }
     }
 
     // a CircularBuffer of T Implements IBuffer of T
