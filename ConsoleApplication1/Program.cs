@@ -10,9 +10,16 @@ namespace BufferPlay
     {
         static void Main(string[] args)
         {
-            var buffer = new CircularBuffer<double>(capacity: 3);
+            var buffer = new Buffer<double>();
 
             ProcessInput(buffer);
+
+            var asInts = buffer.AsEnumerableOf<int>();
+
+            foreach (var item in asInts)
+            {
+                Console.WriteLine(item);
+            }
             ProcessBuffer(buffer);
         }
 
