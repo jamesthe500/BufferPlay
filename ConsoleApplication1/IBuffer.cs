@@ -10,9 +10,6 @@ namespace BufferPlay
     {
         bool IsEmpty { get; }
         void Write(T value);
-        // this will allow clients to convert the collection into another type.
-        // The syntax has us put the variable output type after the method name in <>s.
-        IEnumerable<TOutput> AsEnumerableOf<TOutput>();
         T Read();
     }
 }

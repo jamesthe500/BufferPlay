@@ -16,7 +16,6 @@ namespace BufferPlay
         {
             get
             {
-                // changed to the following from default
                 return _queue.Count == 0;
             }
         }
@@ -37,20 +36,6 @@ namespace BufferPlay
         public virtual void Write(T value)
         {
             _queue.Enqueue(value);
-        }
-
-        public IEnumerable<TOutput> AsEnumerableOf<TOutput>()
-        {
-            // there is this class that knows how to convert many things.
-            // This method gets a converter for whatever the type of T is in use.
-            var converter = TypeDescriptor.GetConverter(typeof(T));
-            foreach (var item in _queue)
-            {
-                var result = converter.ConvertTo(item, typeof(TOutput));
-                // return the results. 
-                // Assume that the converter did its job and typecast it as ConvertTo returns an object.
-                yield return (TOutput)result;
-            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -14,7 +14,11 @@ namespace BufferPlay
 
             ProcessInput(buffer);
 
-            var asInts = buffer.AsEnumerableOf<int>();
+            buffer.Dump();
+            
+            // This is the test of our converter.
+            // it can't handle all type conversions, of course. Datetime e.g.
+            var asInts = buffer.AsEnumerableOf<double, int>();
 
             foreach (var item in asInts)
             {
