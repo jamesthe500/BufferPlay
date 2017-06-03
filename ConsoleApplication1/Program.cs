@@ -8,26 +8,32 @@ namespace BufferPlay
 {
     class Program
     {
-        // the method here needs to match the data type now.
+        // instead of this named method, we'll use the anonymos method below.
+        /*
         static void ConsoleWrite(double data)
         {
             Console.WriteLine(data);
         }
+        */
 
         static void Main(string[] args)
         {
+            // action delegate is built into .NET. 
+            // it always returns void, takes 0-16 parameters that you can type.
+            // we also replaced its definition with an annonymous method.
+            Action<double> print = delegate (double data)
+            {
+                Console.WriteLine(data);
+            };
+
             var buffer = new Buffer<double>();
 
             ProcessInput(buffer);
 
-            // Here we need to match datatype too.
-            // this line is not needed. Instead, C# would be happy to have 
-            //buffer.Dump(ConsoleWrite);
-            // invoked directly. It would take care of instantiating a delegate and initializing everything.
-            var consoleOut = new Printer<double>(ConsoleWrite);
-
-            buffer.Dump(consoleOut);
-            
+            // don't need consoleOut any more. Can just use the new print method.
+            // though in BufferExtenstions will need to change parameter.
+            buffer.Dump(print);
+             
             ProcessBuffer(buffer);
         }
 
