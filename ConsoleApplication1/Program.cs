@@ -8,26 +8,30 @@ namespace BufferPlay
 {
     class Program
     {
+        // This method is for the Printer method below to point to.
+        // it needs to match the return type and the number of parameters of the delegate over in BufferExtensions
+
+        static void ConsoleWrite(object data)
+        {
+            Console.WriteLine(data);
+        }
+
         static void Main(string[] args)
         {
             var buffer = new Buffer<double>();
 
             ProcessInput(buffer);
 
-            buffer.Dump();
-            
-            // This is the test of our converter.
-            // it can't handle all type conversions, of course. Datetime e.g.
-            var asInts = buffer.AsEnumerableOf<double, int>();
+            // now when invoking Dump, the delegate parameter is needed.
+            // it has to be of type Printer
 
-            foreach (var item in asInts)
-            {
-                Console.WriteLine(item);
-            }
+            Printer consoleOut = new Printer(ConsoleWrite);
+
+            buffer.Dump(consoleOut);
+            
             ProcessBuffer(buffer);
         }
 
-        // We are having the program call an implementation so that CircularBuffer can decide what kind of buffer touse?
         private static void ProcessBuffer(IBuffer<double> buffer)
         {
             var sum = 0.0;

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace BufferPlay
 {
-    // We're bringing this functionality into an extension method. 
+    // defining a delegate for the output portion of Dump()
+    public delegate void Printer(object data);
+
     public static class BufferExtensions
     {
-        // because this method is there, there is no T in the class, so define it in the method name.
+       
         public static IEnumerable<TOutput> AsEnumerableOf<T, TOutput>(this IBuffer<T> buffer)
         {
             var converter = TypeDescriptor.GetConverter(typeof(T));
@@ -21,11 +23,12 @@ namespace BufferPlay
             }
         }
 
-        public static void Dump<T>(this IBuffer<T> buffer)
+        // with teh delegate as a parameter, dump doesn't know what out put there is, it just iterates through the items correctly.
+        public static void Dump<T>(this IBuffer<T> buffer, Printer print)
         {
             foreach (var item in buffer)
             {
-                Console.WriteLine(item);
+                print(item);
             }
         }
 
