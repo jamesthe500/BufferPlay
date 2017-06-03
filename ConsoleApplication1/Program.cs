@@ -8,10 +8,8 @@ namespace BufferPlay
 {
     class Program
     {
-        // This method is for the Printer method below to point to.
-        // it needs to match the return type and the number of parameters of the delegate over in BufferExtensions
-
-        static void ConsoleWrite(object data)
+        // the method here needs to match the data type now.
+        static void ConsoleWrite(double data)
         {
             Console.WriteLine(data);
         }
@@ -22,10 +20,11 @@ namespace BufferPlay
 
             ProcessInput(buffer);
 
-            // now when invoking Dump, the delegate parameter is needed.
-            // it has to be of type Printer
-
-            Printer consoleOut = new Printer(ConsoleWrite);
+            // Here we need to match datatype too.
+            // this line is not needed. Instead, C# would be happy to have 
+            //buffer.Dump(ConsoleWrite);
+            // invoked directly. It would take care of instantiating a delegate and initializing everything.
+            var consoleOut = new Printer<double>(ConsoleWrite);
 
             buffer.Dump(consoleOut);
             

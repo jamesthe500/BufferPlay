@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace BufferPlay
 {
-    // defining a delegate for the output portion of Dump()
-    public delegate void Printer(object data);
+    // Now we're going generic so the type can be defined by the client. 
+    // When it was an object, boxing had to ocurr for it to turn those objects into doubles.
+    public delegate void Printer<T>(T data);
 
     public static class BufferExtensions
     {
@@ -23,8 +24,8 @@ namespace BufferPlay
             }
         }
 
-        // with teh delegate as a parameter, dump doesn't know what out put there is, it just iterates through the items correctly.
-        public static void Dump<T>(this IBuffer<T> buffer, Printer print)
+        // We put Printer<T> in because, we are using T throughout this method definition and we want whatever that type is to be the type that is dumped.
+        public static void Dump<T>(this IBuffer<T> buffer, Printer<T> print)
         {
             foreach (var item in buffer)
             {
