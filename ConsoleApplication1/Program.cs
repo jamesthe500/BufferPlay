@@ -8,31 +8,24 @@ namespace BufferPlay
 {
     class Program
     {
-        // instead of this named method, we'll use the anonymos method below.
-        /*
-        static void ConsoleWrite(double data)
-        {
-            Console.WriteLine(data);
-        }
-        */
-
         static void Main(string[] args)
         {
-            // action delegate is built into .NET. 
-            // it always returns void, takes 0-16 parameters that you can type.
-            // we also replaced its definition with an annonymous method.
-            Action<double> print = delegate (double data)
-            {
-                Console.WriteLine(data);
-            };
+            // Lamda Expression!
+            // "given a var d, typed as double, d goes to cw d."
+            Action<bool> print = d => Console.WriteLine(d);
+            // funcs always take at least one parameter, and the last parameter taken is the return type.
+            Func<double, double> square = d => d * d;
+            Func<double, double, double> add = (x, y) => x + y;
+            // predicates always return a bool
+            Predicate<double> isLessThanTen = d => d < 10;
+
+            print(isLessThanTen(square(add(3, 5))));
 
             var buffer = new Buffer<double>();
 
             ProcessInput(buffer);
-
-            // don't need consoleOut any more. Can just use the new print method.
-            // though in BufferExtenstions will need to change parameter.
-            buffer.Dump(print);
+            
+            buffer.Dump(d => Console.WriteLine(d));
              
             ProcessBuffer(buffer);
         }
