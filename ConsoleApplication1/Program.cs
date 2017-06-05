@@ -10,21 +10,22 @@ namespace BufferPlay
     {
         static void Main(string[] args)
         {
-            // Lamda Expression!
-            // "given a var d, typed as double, d goes to cw d."
-            Action<bool> print = d => Console.WriteLine(d);
-            // funcs always take at least one parameter, and the last parameter taken is the return type.
-            Func<double, double> square = d => d * d;
-            Func<double, double, double> add = (x, y) => x + y;
-            // predicates always return a bool
-            Predicate<double> isLessThanTen = d => d < 10;
-
-            print(isLessThanTen(square(add(3, 5))));
 
             var buffer = new Buffer<double>();
 
             ProcessInput(buffer);
-            
+
+            // a bit of logic to make things happen.
+            // here, we tell it how to convert a double to a datetime. It's a number of days after 1/1/2010
+            Converter<double, DateTime> converter = d => new DateTime(2010, 1, 1).AddDays(d);
+            // Had to call Map here. Doesn't need the generic types defined any more b/c it sees the converter that's being called and knows that those are teh types we're workign with.
+            var asDates = buffer.Map(converter);
+            foreach (var date in asDates)
+            {
+                Console.WriteLine(date);
+            }
+
+        
             buffer.Dump(d => Console.WriteLine(d));
              
             ProcessBuffer(buffer);

@@ -12,15 +12,16 @@ namespace BufferPlay
 
     public static class BufferExtensions
     {
-       
-        public static IEnumerable<TOutput> AsEnumerableOf<T, TOutput>(this IBuffer<T> buffer)
+       // changing around this method. 
+       // Name to Map as we are now going to be mapping each input type to its new type.
+       // will need a converter passed to it with two inputs.
+       // T is the type of the buffer. TToutput is type we already have in place. 
+        public static IEnumerable<TOutput> Map<T, TOutput>(this IBuffer<T> buffer, Converter<T, TOutput> converter)
         {
-            var converter = TypeDescriptor.GetConverter(typeof(T));
-            foreach (var item in buffer)
-            {
-                TOutput result = (TOutput)converter.ConvertTo(item, typeof(TOutput));
-                yield return result;
-            }
+            // This is a simplter way to write it.
+            // This LINQ Select operator is doing a projection. 
+            // For each item in buffer, i, run the covnerter and transfomr the i to anothe type.
+            return buffer.Select(i => converter(i));
         }
 
         // changed Printer<T> to Action<T> so all matches.
