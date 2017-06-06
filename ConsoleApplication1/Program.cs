@@ -10,25 +10,26 @@ namespace BufferPlay
     {
         static void Main(string[] args)
         {
+            // Switching to Circular to demonstrate event raising with generics.
+            var buffer = new CircularBuffer<double>(capacity:3);
 
-            var buffer = new Buffer<double>();
+            // Created handler below by hitting tab twice after "+="
+            // This is where the event is raised
+            buffer.ItemDiscarded += Buffer_ItemDiscarded;
 
             ProcessInput(buffer);
-
-            // a bit of logic to make things happen.
-            // here, we tell it how to convert a double to a datetime. It's a number of days after 1/1/2010
-            Converter<double, DateTime> converter = d => new DateTime(2010, 1, 1).AddDays(d);
-            // Had to call Map here. Doesn't need the generic types defined any more b/c it sees the converter that's being called and knows that those are teh types we're workign with.
-            var asDates = buffer.Map(converter);
-            foreach (var date in asDates)
-            {
-                Console.WriteLine(date);
-            }
-
         
             buffer.Dump(d => Console.WriteLine(d));
              
             ProcessBuffer(buffer);
+        }
+
+        // The event is handeled here.
+        // (Auto gnereated abvoe)
+        // writes the line using the info provided by CircularBuffer
+        private static void Buffer_ItemDiscarded(object sender, ItemDiscardedEventArgs<double> e)
+        {
+            Console.WriteLine("Buffer full, discarded {0}. New item is {1}", e.ItemDiscarded, e.NewItem);
         }
 
         private static void ProcessBuffer(IBuffer<double> buffer)
